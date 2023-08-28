@@ -4,11 +4,11 @@
 #include <iostream>
 
 // Matriz de char representnado o labirinto
-char** maze; // Voce também pode representar o labirinto como um vetor de vetores de char (vector<vector<char>>)
+char maze[20][49]; // Voce também pode representar o labirinto como um vetor de vetores de char (vector<vector<char>>)
 
 // Numero de linhas e colunas do labirinto
-int num_rows;
-int num_cols;
+int num_linhas;
+int num_colunas;
 
 // Representação de uma posição
 struct pos_t {
@@ -51,24 +51,23 @@ pos_t load_maze(const char* file_name) {
 	char coluna[10];
 
     fscanf(file, "%s %s", linha, coluna);
+	fgetc(file); // Consumir o caractere de nova linha
 
-	num_rows = std::stoi(linha);
-	num_cols = std::stoi(coluna);
+	num_linhas = std::stoi(linha);
+	num_colunas = std::stoi(coluna);
 
-	std::cout << "num linhas = " << num_rows << '\n';
-	std::cout << "num colunas = " << num_cols << '\n';
+	std::cout << "num linhas = " << num_linhas << '\n';
+	std::cout << "num colunas = " << num_colunas << '\n';
 	
-
-
-	 
-	maze[num_rows][num_cols];
+	
 	    
-	for (int i = 0; i < num_rows; ++i) {
-        fscanf(file, "%s", maze[i]);
+	for (int i = 0; i < num_linhas; ++i) {
+        fgets(maze[i], num_colunas + 1, file);
+		fgetc(file); // Consumir o caractere de nova linha
     }
 
-    for (int i = 0; i < num_rows; ++i) {
-        for (int j = 0; j < num_cols; ++j) {
+    for (int i = 0; i < num_linhas; ++i) {
+        for (int j = 0; j < num_colunas; ++j) {
             if (maze[i][j] == 'e') {
                 initial_pos.i = i;
                 initial_pos.j = j;
@@ -85,8 +84,8 @@ pos_t load_maze(const char* file_name) {
 
 // Função que imprime o labirinto
 void print_maze() {
-	for (int i = 0; i < num_rows; ++i) {
-		for (int j = 0; j < num_cols; ++j) {
+	for (int i = 0; i < num_linhas; ++i) {
+		for (int j = 0; j < num_colunas; ++j) {
 			printf("%c", maze[i][j]);
 		}
 		printf("\n");

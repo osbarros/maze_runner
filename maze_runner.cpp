@@ -4,7 +4,7 @@
 #include <iostream>
 
 // Matriz de char representnado o labirinto
-char maze[20][49]; // Voce também pode representar o labirinto como um vetor de vetores de char (vector<vector<char>>)
+char** maze; // Voce também pode representar o labirinto como um vetor de vetores de char (vector<vector<char>>)
 
 // Numero de linhas e colunas do labirinto
 int num_linhas;
@@ -36,6 +36,7 @@ std::stack<pos_t> valid_positions;
 //    valid_positions.pop();
 
 
+
 // Função que le o labirinto de um arquivo texto, carrega em 
 // memória e retorna a posição inicial
 pos_t load_maze(const char* file_name) {
@@ -59,21 +60,22 @@ pos_t load_maze(const char* file_name) {
 	std::cout << "num linhas = " << num_linhas << '\n';
 	std::cout << "num colunas = " << num_colunas << '\n';
 	
-	
+	maze = new char*[num_linhas];
 	    
 	for (int i = 0; i < num_linhas; ++i) {
+		maze[i] = new char[num_colunas + 1]; // +1 para o caractere nulo
         fgets(maze[i], num_colunas + 1, file);
 		fgetc(file); // Consumir o caractere de nova linha
     }
 
-    for (int i = 0; i < num_linhas; ++i) {
+/*     for (int i = 0; i < num_linhas; ++i) {
         for (int j = 0; j < num_colunas; ++j) {
             if (maze[i][j] == 'e') {
                 initial_pos.i = i;
                 initial_pos.j = j;
             }
         }
-    }
+    } */
 
 	
 
@@ -126,7 +128,7 @@ bool walk(pos_t pos) {
 }
 
 int main(int argc, char* argv[]) {
-	printf("chegou 2");
+	
 	// carregar o labirinto com o nome do arquivo recebido como argumento
 	pos_t initial_pos = load_maze("../data/maze.txt");
 	

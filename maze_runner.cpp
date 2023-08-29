@@ -104,7 +104,7 @@ void print_maze()
 // Função que retorna se a posição existe no labirinto
 bool position_exists(int i, int j)
 {
-	if (i > -1 && j > -1 && i < num_linhas + 1 && j < num_colunas + 1)
+	if (i > -1 && j > -1 && i < num_linhas && j < num_colunas)
 	{
 		return true;
 	}
@@ -260,7 +260,7 @@ int main(int argc, char *argv[])
 {
 
 	// carregar o labirinto com o nome do arquivo recebido como argumento
-	pos_t initial_pos = load_maze("../data/maze2.txt");
+	pos_t initial_pos = load_maze("../data/maze5.txt");
 
 	print_maze();
 

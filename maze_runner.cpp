@@ -104,7 +104,7 @@ void print_maze()
 // Função que retorna se a posição existe no labirinto
 bool position_exists(int i, int j)
 {
-	if (i > 0 && j > 0 && i < num_linhas + 1 && j < num_colunas + 1)
+	if (i > -1 && j > -1 && i < num_linhas + 1 && j < num_colunas + 1)
 	{
 		return true;
 	}
@@ -114,6 +114,8 @@ bool position_exists(int i, int j)
 
 bool position_is_s(int i, int j, char **matriz)
 {
+	if(!position_exists(i, j))
+		return false;
 	if (matriz[i][j] == 's')
 	{
 		return true;
@@ -123,10 +125,10 @@ bool position_is_s(int i, int j, char **matriz)
 
 bool position_is_valid(int i, int j, char **matriz)
 {
-	if (position_is_s(i, j, matriz))
-		return true;
 	if (position_exists(i, j))
 	{
+		if (position_is_s(i, j, matriz))
+			return true;
 		return matriz[i][j] == 'x';
 	}
 	return false;

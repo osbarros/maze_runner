@@ -123,10 +123,10 @@ bool position_is_s(int i, int j, char **matriz)
 
 bool position_is_valid(int i, int j, char **matriz)
 {
+	if (position_is_s(i, j, matriz))
+		return true;
 	if (position_exists(i, j))
 	{
-		if (position_is_s(i, j, matriz))
-			return true;
 		return matriz[i][j] == 'x';
 	}
 	return false;
@@ -147,6 +147,15 @@ bool walk(pos_t pos, char **matriz)
 			auxOeste.j = pos.j - 1;
 			valid_positions.push(auxOeste);
 		}
+		if (position_is_s(pos.i, pos.j - 1, matriz))
+		{
+			matriz[pos.i][pos.j] = '.';
+			pos = valid_positions.top();
+			print_maze();
+			system("clear");
+			matriz[pos.i][pos.j] = '.';
+			break;
+		}
 
 		// confere a posição ao sul
 		if (position_is_valid(pos.i + 1, pos.j, matriz))
@@ -155,6 +164,15 @@ bool walk(pos_t pos, char **matriz)
 			auxSul.i = pos.i + 1;
 			auxSul.j = pos.j;
 			valid_positions.push(auxSul);
+		}
+		if (position_is_s(pos.i + 1, pos.j, matriz))
+		{
+			matriz[pos.i][pos.j] = '.';
+			pos = valid_positions.top();
+			print_maze();
+			system("clear");
+			matriz[pos.i][pos.j] = '.';
+			break;
 		}
 
 		// confere a posição ao leste
@@ -165,6 +183,15 @@ bool walk(pos_t pos, char **matriz)
 			auxLeste.j = pos.j + 1;
 			valid_positions.push(auxLeste);
 		}
+		if (position_is_s(pos.i, pos.j + 1, matriz))
+		{
+			matriz[pos.i][pos.j] = '.';
+			pos = valid_positions.top();
+			print_maze();
+			system("clear");
+			matriz[pos.i][pos.j] = '.';
+			break;
+		}
 
 		// confere a posição ao norte
 
@@ -174,6 +201,15 @@ bool walk(pos_t pos, char **matriz)
 			auxNorte.i = pos.i - 1;
 			auxNorte.j = pos.j;
 			valid_positions.push(auxNorte);
+		}
+		if (position_is_s(pos.i - 1, pos.j, matriz))
+		{
+			matriz[pos.i][pos.j] = '.';
+			pos = valid_positions.top();
+			print_maze();
+			system("clear");
+			matriz[pos.i][pos.j] = '.';
+			break;
 		}
 
 		// move o tabuleiro
@@ -188,8 +224,12 @@ bool walk(pos_t pos, char **matriz)
 		print_maze();
 	}
 
-	if (matriz[pos.i][pos.j] == 's')
+	print_maze();
+	if (matriz[pos.i][pos.j] == '.')
+	{
+		std::cout << "Labirinto finalizado com sucesso!" << '\n';
 		return true;
+	}
 
 	return false;
 
@@ -218,7 +258,7 @@ int main(int argc, char *argv[])
 {
 
 	// carregar o labirinto com o nome do arquivo recebido como argumento
-	pos_t initial_pos = load_maze("../data/maze.txt");
+	pos_t initial_pos = load_maze("../data/maze2.txt");
 
 	print_maze();
 
